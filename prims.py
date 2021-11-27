@@ -1,39 +1,39 @@
 # Python Implementation for Minimum Spanning Tree using Prim's Algorithm
-# Author:
+# Author: Joachim Wambua
+
 def prims_algorithm(vertices, graph):
-    # Matrix to hold MST(Minimum Spanning Tree)
-    mstMatrix = [[0 for column in range(vertices)] for row in range(vertices)]
-    # Initialise array to hold vertices in MST set
-    selectedVertices = [0 for vertex in range(0, vertices)]
-    positiveInfinity = 1000000
-    edges = 0
-    selectedVertices[0] = True
-    # Prims Algorithm logic
-    while edges < vertices - 1:
-        minimum = positiveInfinity
+    # Initialise array to hold vertices selected in the MST set
+    selectedVertex = [0 for vertex in range(0, vertices)]
+    max_minimum = 1000000
+    # Initialising the Prim's algorithm's starting vertex to index 0
+    selectedVertex[0] = True
+
+    #  Prim's Algorithm logic
+    while 0 in selectedVertex:
+        # Set minimum to maximum value
+        minimum = max_minimum
+        # Initialise 1st & last vertices with an edge in between
         first_vertex = 0
         last_vertex = 0
+        # Looping through the vertices
         for node in range(vertices):
-            if selectedVertices[node]:
+            # If current vertex is in the reached set of vertices...
+            if selectedVertex[node]:
+                # Then loop through the adjacent vertices to find edge with minimum weight
                 for node1 in range(vertices):
-                    if (not selectedVertices[node1]) and graph[node][node1] > 0:
+                    # Checks if current vertex is not in the MST set & is part of the overall graph
+                    if (not selectedVertex[node1]) and graph[node][node1] > 0:
+                        # If True, Check if weight on current edge(between node1&2) is less than the current minimum
                         if graph[node][node1] < minimum:
-                            # Set new minimum weight
+                            # If True, Set new minimum weight
                             minimum = graph[node][node1]
                             first_vertex = node
                             last_vertex = node1
+        # Print the adjacent edge with the least weight selected for the MST
         print(str(first_vertex) + ' ---- ' + str(last_vertex) + '  =  ' + str(graph[first_vertex][last_vertex]))
-        selectedVertices[last_vertex] = True
-        edges += 1
-        mstMatrix[first_vertex][last_vertex] = minimum
-
-        if minimum == positiveInfinity:
-            mstMatrix[first_vertex][last_vertex] = 0
-            mstMatrix[first_vertex][last_vertex] = mstMatrix[last_vertex][first_vertex]
-            print()
+        # Add the latest vertex to the MST array
+        selectedVertex[last_vertex] = True
     print()
-    print('MST Adjacency Matrix:')
-    print(mstMatrix)
 
 
 if __name__ == "__main__":
